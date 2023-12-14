@@ -14,9 +14,11 @@ class WeatherBg extends StatefulWidget {
   final double width;
   final double height;
 
-  WeatherBg(
-      {Key key, this.weatherType, @required this.width, @required this.height})
-      : super(key: key);
+  const WeatherBg(
+      {super.key,
+      required this.weatherType,
+      required this.width,
+      required this.height});
 
   @override
   _WeatherBgState createState() => _WeatherBgState();
@@ -24,7 +26,7 @@ class WeatherBg extends StatefulWidget {
 
 class _WeatherBgState extends State<WeatherBg>
     with SingleTickerProviderStateMixin {
-  WeatherType _oldWeatherType;
+  WeatherType? _oldWeatherType;
   bool needChange = false;
   var state = CrossFadeState.showSecond;
 
@@ -43,7 +45,7 @@ class _WeatherBgState extends State<WeatherBg>
     var oldBgWidget;
     if (_oldWeatherType != null) {
       oldBgWidget = WeatherItemBg(
-        weatherType: _oldWeatherType,
+        weatherType: _oldWeatherType!,
         width: widget.width,
         height: widget.height,
       );
@@ -84,11 +86,14 @@ class _WeatherBgState extends State<WeatherBg>
 
 class WeatherItemBg extends StatelessWidget {
   final WeatherType weatherType;
-  final width;
-  final height;
+  final double width;
+  final double height;
 
-  WeatherItemBg({Key key, this.weatherType, this.width, this.height})
-      : super(key: key);
+  const WeatherItemBg(
+      {super.key,
+      required this.weatherType,
+      required this.width,
+      required this.height});
 
   /// 构建晴晚背景效果
   Widget _buildNightStarBg() {
@@ -147,15 +152,14 @@ class WeatherItemBg extends StatelessWidget {
 class SizeInherited extends InheritedWidget {
   final Size size;
 
-  const SizeInherited({
-    Key key,
-    @required Widget child,
-    @required this.size,
-  })  : assert(child != null),
-        super(key: key, child: child);
+  SizeInherited({
+    super.key,
+    required super.child,
+    required this.size,
+  });
 
   static SizeInherited of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<SizeInherited>();
+    return context.dependOnInheritedWidgetOfExactType<SizeInherited>()!;
   }
 
   @override

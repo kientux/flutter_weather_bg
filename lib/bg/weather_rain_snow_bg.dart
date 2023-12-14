@@ -14,9 +14,11 @@ class WeatherRainSnowBg extends StatefulWidget {
   final double viewWidth;
   final double viewHeight;
 
-  WeatherRainSnowBg(
-      {Key key, this.weatherType, this.viewWidth, this.viewHeight})
-      : super(key: key);
+  const WeatherRainSnowBg(
+      {super.key,
+      required this.weatherType,
+      required this.viewWidth,
+      required this.viewHeight});
 
   @override
   _WeatherRainSnowBgState createState() => _WeatherRainSnowBgState();
@@ -25,10 +27,10 @@ class WeatherRainSnowBg extends StatefulWidget {
 class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     with SingleTickerProviderStateMixin {
   List<ui.Image> _images = [];
-  AnimationController _controller;
+  late AnimationController _controller;
   List<RainSnowParams> _rainSnows = [];
   int count = 0;
-  WeatherDataState _state;
+  late WeatherDataState _state;
 
   /// 异步获取雨雪的图片资源和初始化数据
   Future<void> fetchImages() async {
@@ -38,7 +40,7 @@ class _WeatherRainSnowBgState extends State<WeatherRainSnowBg>
     _images.clear();
     _images.add(image1);
     _images.add(image2);
-    weatherPrint("获取雨雪图片成功： ${_images?.length}");
+    weatherPrint("获取雨雪图片成功： ${_images.length}");
     _state = WeatherDataState.init;
     setState(() {});
   }
@@ -142,9 +144,9 @@ class RainSnowPainter extends CustomPainter {
   }
 
   void drawRain(Canvas canvas, Size size) {
-    if (_state._images != null && _state._images.length > 1) {
+    if (_state._images.length > 1) {
       ui.Image image = _state._images[0];
-      if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
+      if (_state._rainSnows.isNotEmpty) {
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
@@ -191,8 +193,7 @@ class RainSnowPainter extends CustomPainter {
     if (params.y > params.height / params.scale) {
       params.y = -params.height * params.scale;
       if (WeatherUtil.isRainy(_state.widget.weatherType) &&
-          _state._images.isNotEmpty &&
-          _state._images[0] != null) {
+          _state._images.isNotEmpty) {
         params.y = -_state._images[0].height.toDouble();
       }
       params.reset();
@@ -200,9 +201,9 @@ class RainSnowPainter extends CustomPainter {
   }
 
   void drawSnow(Canvas canvas, Size size) {
-    if (_state._images != null && _state._images.length > 1) {
+    if (_state._images.length > 1) {
       ui.Image image = _state._images[1];
-      if (_state._rainSnows != null && _state._rainSnows.isNotEmpty) {
+      if (_state._rainSnows.isNotEmpty) {
         _state._rainSnows.forEach((element) {
           move(element);
           ui.Offset offset = ui.Offset(element.x, element.y);
@@ -246,16 +247,16 @@ class RainSnowPainter extends CustomPainter {
 
 class RainSnowParams {
   /// x 坐标
-  double x;
+  late double x;
 
   /// y 坐标
-  double y;
+  late double y;
 
   /// 下落速度
-  double speed;
+  late double speed;
 
   /// 绘制的缩放
-  double scale;
+  late double scale;
 
   /// 宽度
   double width;
@@ -264,13 +265,13 @@ class RainSnowParams {
   double height;
 
   /// 透明度
-  double alpha;
+  late double alpha;
 
   /// 天气类型
   WeatherType weatherType;
 
-  double widthRatio;
-  double heightRatio;
+  late double widthRatio;
+  late double heightRatio;
 
   RainSnowParams(this.width, this.height, this.weatherType);
 

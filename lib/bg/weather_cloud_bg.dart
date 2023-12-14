@@ -11,7 +11,7 @@ import 'package:flutter_weather_bg/utils/weather_type.dart';
 class WeatherCloudBg extends StatefulWidget {
   final WeatherType weatherType;
 
-  WeatherCloudBg({Key key, this.weatherType}) : super(key: key);
+  const WeatherCloudBg({super.key, required this.weatherType});
 
   @override
   _WeatherCloudBgState createState() => _WeatherCloudBgState();
@@ -26,7 +26,7 @@ class _WeatherCloudBgState extends State<WeatherCloudBg> {
     var image2 = await ImageUtils.getImage('images/sun.webp');
     _images.add(image1);
     _images.add(image2);
-    weatherPrint("获取云层图片成功： ${_images?.length}");
+    weatherPrint("获取云层图片成功： ${_images.length}");
     setState(() {});
   }
 
@@ -37,7 +37,7 @@ class _WeatherCloudBgState extends State<WeatherCloudBg> {
   }
 
   Widget _buildWidget() {
-    if (_images != null && _images.isNotEmpty) {
+    if (_images.isNotEmpty) {
       return CustomPaint(
         painter: BgPainter(
             _images,
@@ -67,7 +67,7 @@ class BgPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (images != null && images.isNotEmpty) {
+    if (images.isNotEmpty) {
       switch (weatherType) {
         case WeatherType.sunny:
           drawSunny(canvas, size);

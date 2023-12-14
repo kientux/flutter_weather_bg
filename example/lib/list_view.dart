@@ -35,7 +35,10 @@ class _ListViewWidgetState extends State<ListViewWidget> {
 class ListItemWidget extends StatelessWidget {
   final WeatherType weatherType;
 
-  ListItemWidget({Key key, this.weatherType}) : super(key: key);
+  const ListItemWidget({
+    super.key,
+    required this.weatherType,
+  });
 
   @override
   Widget build(BuildContext context) {

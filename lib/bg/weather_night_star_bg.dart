@@ -1,18 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_bg/bg/weather_bg.dart';
 import 'package:flutter_weather_bg/flutter_weather_bg.dart';
 import 'package:flutter_weather_bg/utils/print_utils.dart';
 import 'dart:ui' as ui;
-
-import 'package:flutter_weather_bg/utils/weather_type.dart';
 
 //// 晴晚&流星层
 class WeatherNightStarBg extends StatefulWidget {
   final WeatherType weatherType;
 
-  WeatherNightStarBg({Key key, this.weatherType}) : super(key: key);
+  const WeatherNightStarBg({super.key, required this.weatherType});
 
   @override
   _WeatherNightStarBgState createState() => _WeatherNightStarBgState();
@@ -20,13 +17,13 @@ class WeatherNightStarBg extends StatefulWidget {
 
 class _WeatherNightStarBgState extends State<WeatherNightStarBg>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
   List<_StarParam> _starParams = [];
   List<_MeteorParam> _meteorParams = [];
   WeatherDataState _state = WeatherDataState.init;
-  double width;
-  double height;
-  double widthRatio;
+  late double width;
+  late double height;
+  late double widthRatio;
 
   /// 准备星星的参数信息
   void fetchData() async {
@@ -76,8 +73,7 @@ class _WeatherNightStarBgState extends State<WeatherNightStarBg>
   }
 
   Widget _buildWidget() {
-    if (_starParams != null &&
-        _starParams.isNotEmpty &&
+    if (_starParams.isNotEmpty &&
         widget.weatherType == WeatherType.sunnyNight) {
       return CustomPaint(
         painter:
@@ -130,12 +126,12 @@ class _StarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (_starParams != null && _starParams.isNotEmpty) {
+    if (_starParams.isNotEmpty) {
       for (var param in _starParams) {
         drawStar(param, canvas);
       }
     }
-    if (_meteorParams != null && _meteorParams.isNotEmpty) {
+    if (_meteorParams.isNotEmpty) {
       for (var param in _meteorParams) {
         drawMeteor(param, canvas);
       }
@@ -168,9 +164,6 @@ class _StarPainter extends CustomPainter {
 
   /// 绘制星星
   void drawStar(_StarParam param, Canvas canvas) {
-    if (param == null) {
-      return;
-    }
     canvas.save();
     var identity = ColorFilter.matrix(<double>[
       1,
@@ -208,11 +201,11 @@ class _StarPainter extends CustomPainter {
 }
 
 class _MeteorParam {
-  double translateX;
-  double translateY;
-  double radians;
+  late double translateX;
+  late double translateY;
+  late double radians;
 
-  double width, height, widthRatio;
+  late double width, height, widthRatio;
 
   /// 初始化数据
   void init(width, height, widthRatio) {
@@ -240,28 +233,28 @@ class _MeteorParam {
 
 class _StarParam {
   /// x 坐标
-  double x;
+  late double x;
 
   /// y 坐标
-  double y;
+  late double y;
 
   /// 透明度值，默认为 0
   double alpha = 0.0;
 
   /// 缩放
-  double scale;
+  late double scale;
 
   /// 是否反向动画
   bool reverse = false;
 
   /// 当前下标值
-  int index;
+  late int index;
 
-  double width;
+  late double width;
 
-  double height;
+  late double height;
 
-  double widthRatio;
+  late double widthRatio;
 
   _StarParam(this.index);
 

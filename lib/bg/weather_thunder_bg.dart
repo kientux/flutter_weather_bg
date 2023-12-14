@@ -12,7 +12,7 @@ import 'package:flutter_weather_bg/utils/weather_type.dart';
 class WeatherThunderBg extends StatefulWidget {
   final WeatherType weatherType;
 
-  WeatherThunderBg({Key key, this.weatherType}) : super(key: key);
+  const WeatherThunderBg({super.key, required this.weatherType});
 
   @override
   _WeatherCloudBgState createState() => _WeatherCloudBgState();
@@ -21,9 +21,9 @@ class WeatherThunderBg extends StatefulWidget {
 class _WeatherCloudBgState extends State<WeatherThunderBg>
     with SingleTickerProviderStateMixin {
   List<ui.Image> _images = [];
-  AnimationController _controller;
+  late AnimationController _controller;
   List<ThunderParams> _thunderParams = [];
-  WeatherDataState _state;
+  late WeatherDataState _state;
 
   /// 异步获取雷暴图片资源
   Future<void> fetchImages() async {
@@ -38,7 +38,7 @@ class _WeatherCloudBgState extends State<WeatherThunderBg>
     _images.add(image3);
     _images.add(image4);
     _images.add(image5);
-    weatherPrint("获取雷暴图片成功： ${_images?.length}");
+    weatherPrint("获取雷暴图片成功： ${_images.length}");
     _state = WeatherDataState.init;
     setState(() {});
   }
@@ -122,21 +122,21 @@ class _WeatherCloudBgState extends State<WeatherThunderBg>
     ));
 
     _animation.addListener(() {
-      if (_thunderParams != null && _thunderParams.isNotEmpty) {
+      if (_thunderParams.isNotEmpty) {
         _thunderParams[0].alpha = _animation.value;
       }
       setState(() {});
     });
 
     _animation1.addListener(() {
-      if (_thunderParams != null && _thunderParams.isNotEmpty) {
+      if (_thunderParams.isNotEmpty) {
         _thunderParams[1].alpha = _animation1.value;
       }
       setState(() {});
     });
 
     _animation2.addListener(() {
-      if (_thunderParams != null && _thunderParams.isNotEmpty) {
+      if (_thunderParams.isNotEmpty) {
         _thunderParams[2].alpha = _animation2.value;
       }
       setState(() {});
@@ -152,8 +152,7 @@ class _WeatherCloudBgState extends State<WeatherThunderBg>
   /// 构建雷暴 widget
   Widget _buildWidget() {
     // 这里需要判断天气类别信息，防止不需要绘制的时候绘制，影响性能
-    if (_thunderParams != null &&
-        _thunderParams.isNotEmpty &&
+    if (_thunderParams.isNotEmpty &&
         widget.weatherType == WeatherType.thunder) {
       return CustomPaint(
         painter: ThunderPainter(_thunderParams),
@@ -201,7 +200,7 @@ class ThunderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (thunderParams != null && thunderParams.isNotEmpty) {
+    if (thunderParams.isNotEmpty) {
       for (var param in thunderParams) {
         drawThunder(param, canvas, size);
       }
@@ -210,9 +209,6 @@ class ThunderPainter extends CustomPainter {
 
   /// 这里主要负责绘制雷电
   void drawThunder(ThunderParams params, Canvas canvas, Size size) {
-    if (params == null || params.image == null) {
-      return;
-    }
     canvas.save();
     var identity = ColorFilter.matrix(<double>[
       1,
@@ -250,9 +246,9 @@ class ThunderPainter extends CustomPainter {
 
 class ThunderParams {
   ui.Image image; // 配置闪电的图片资源
-  double x; // 图片展示的 x 坐标
-  double y; // 图片展示的 y 坐标
-  double alpha; // 闪电的 alpha 属性
+  late double x; // 图片展示的 x 坐标
+  late double y; // 图片展示的 y 坐标
+  late double alpha; // 闪电的 alpha 属性
   int get imgWidth => image.width; // 雷电图片的宽度
   int get imgHeight => image.height; // 雷电图片的高度
   final double width, height, widthRatio;
